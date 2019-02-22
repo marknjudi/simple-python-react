@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <script src="https://unpkg.com/react@15/dist/react.min.js"> </script>
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"> </script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    /* ADD REACT CODE HERE */
+
+    /* ref:
+     * https://medium.freecodecamp.org/learn-react-js-in-5-minutes-526472d292f4
+     */
+
+    class ShowIp extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          ipValue: "tbd"
+        };
+        console.log('ctor')
+      }
+      
+      componentWillMount() {
+        console.log('willmount')
+               
+        fetch('/ip')
+        .then(results => {
+            return results.json();
+          })
+        .then(data => {
+            console.log(JSON.stringify(data))
+            this.setState({ipValue: data.ip});
+          })
+        }
+
+      render() {
+        return (
+          <h3>Server's IP addr is: {this.state.ipValue} </h3>
+        );
+      }
+    }
+
+    class Display extends React.Component {
+      render() {
+        return (
+          <div className="main">
+          <h1>Welcome to the app</h1>
+            <div className="ip">
+              <ShowIp />
+            </div>
+          </div>
+      );
+      }
+    }
+
+    ReactDOM.render(
+      <Display />, 
+      document.getElementById("root")
+    ); 
+
+  </script>
+</body>
+
+</html>
